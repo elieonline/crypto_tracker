@@ -220,7 +220,7 @@ class _AppFormFieldState extends State<AppFormField> {
                     borderRadius: BorderRadius.circular(widget.borderRadius),
                     borderSide: widget.borderSide ??
                         BorderSide(
-                          color: appColors(context).primary,
+                          color: appColors(context).onSurface.withOpacity(0.2),
                           width: 1,
                         ),
                   ),

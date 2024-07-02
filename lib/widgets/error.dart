@@ -35,7 +35,7 @@ class EmptyErrorWidget extends StatelessWidget {
           ),
           const Spacing.smallHeight(),
           Text(
-            message ?? "Assets added will be catalogued here,\nready to revisit whenever you please.",
+            message ?? "Assets added will be catalogued here,\nadd now to get started.",
             style: messageStyle ?? textTheme(context).textRegular.copyWith(fontSize: 13),
             textAlign: TextAlign.center,
           ),

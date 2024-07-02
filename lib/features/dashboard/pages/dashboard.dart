@@ -1,4 +1,5 @@
 import 'package:crypto_tracker/core/extensions/texttheme_extension.dart';
+import 'package:crypto_tracker/core/utils/theme.dart';
 import 'package:crypto_tracker/core/utils/utils.dart';
 import 'package:crypto_tracker/widgets/widget.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           onPressed: () {},
           backgroundColor: appColors(context).primary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          label: const Text("Compare Assets"),
+          label: Text(
+            "Compare Assets",
+            style: textTheme(context).text1Regular.copyWith(color: Colors.white),
+          ),
         ),
         body: ListView(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -72,8 +76,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             const Spacing.mediumHeight(),
             /*  EmptyErrorWidget(
               bottom: AppButton(
-                onPressed: () {},
-                text: 'Add Asset',
+                onPressed: () => appRouter.push(const AddAssetRoute()),
+                text: '+ Add Asset',
               ),
             ), */
             ListView.separated(
@@ -117,7 +121,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             AppButton(
               text: '+ Add Asset',
               buttonStyle: AppButtonStyle.secondary(context),
-              onPressed: () {},
+              onPressed: () => appRouter.push(const AddAssetRoute()),
             )
           ],
         ),
