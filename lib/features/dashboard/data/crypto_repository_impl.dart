@@ -58,6 +58,11 @@ class CryptoRepositoryImpl implements CryptoRepository {
     _ref.read(cryptoProvider.notifier).state = val;
     await _storage.put(HiveKeys.cryptos, jsonEncode(val));
   }
+
+  @override
+  List<Asset> getAssets() {
+    return _ref.read(assetStore).getAll();
+  }
 }
 
 final cryptoProvider = StateProvider<List<Cryptocurrency>>((ref) {

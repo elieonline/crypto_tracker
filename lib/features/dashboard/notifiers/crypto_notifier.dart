@@ -1,7 +1,6 @@
 import 'package:crypto_tracker/core/enums/enums.dart';
 import 'package:crypto_tracker/core/services/local_database/asset_storage.dart';
 import 'package:crypto_tracker/core/services/local_database/asset_storage_impl.dart';
-import 'package:crypto_tracker/core/utils/loggers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/asset_model.dart';
@@ -75,9 +74,14 @@ class CryptoNotifier extends StateNotifier<CryptoState> {
       if (response < 1) throw response;
       state = state.copyWith(assetLoadState: LoadState.success);
     } catch (e) {
-      debugLog(e);
       state = state.copyWith(assetLoadState: LoadState.error);
     }
+  }
+
+  void fetchAssets() async {
+    try {
+      _cryptoRepository.getAssets();
+    } catch (_) {}
   }
 
   void reset() {
