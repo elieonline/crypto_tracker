@@ -14,6 +14,7 @@ class AppColors extends ThemeExtension<AppColors> {
     this.success = const Color(0xFF008000),
     this.error = const Color(0xFFE83D1E),
     required this.surface,
+    required this.formBackground,
   });
   final Color primary;
   final Color scaffold;
@@ -26,6 +27,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color success;
   final Color error;
   final Color surface;
+  final Color formBackground;
 
   @override
   ThemeExtension<AppColors> lerp(covariant ThemeExtension<AppColors>? other, double t) {
@@ -44,6 +46,7 @@ class AppColors extends ThemeExtension<AppColors> {
       success: Color.lerp(success, other.success, t)!,
       error: Color.lerp(error, other.error, t)!,
       surface: Color.lerp(surface, other.surface, t)!,
+      formBackground: Color.lerp(formBackground, other.formBackground, t)!,
     );
   }
 
@@ -51,11 +54,8 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors copyWith({
     Color? primary,
     Color? scaffold,
-    Color? scaffold2,
     Color? onSurface,
-    Color? onSurface2,
     Color? grey,
-    Color? grey2,
     Color? lightSub,
     Color? buttonOutline,
     Color? black,
@@ -63,11 +63,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? success,
     Color? error,
     Color? surface,
-    Color? surface2,
-    Color? surface3,
-    Color? surface4,
     Color? formBackground,
-    Color? receiptBackground,
   }) {
     return AppColors(
       primary: primary ?? this.primary,
@@ -81,6 +77,7 @@ class AppColors extends ThemeExtension<AppColors> {
       success: success ?? this.success,
       error: error ?? this.error,
       surface: surface ?? this.surface,
+      formBackground: formBackground ?? this.formBackground,
     );
   }
 }
@@ -90,6 +87,7 @@ AppColors get lightColors => AppColors(
       onSurface: const Color(0xFF101010),
       buttonOutline: const Color(0xFF094EFF),
       surface: Colors.white,
+      formBackground: const Color(0xFFf7f7f7),
     );
 
 AppColors get darkColors => AppColors(
@@ -97,6 +95,7 @@ AppColors get darkColors => AppColors(
       onSurface: Colors.white,
       buttonOutline: Colors.white,
       surface: const Color.fromRGBO(255, 255, 255, 0.05),
+      formBackground: const Color(0xFF262626),
     );
 
 AppColors appColors(context) => Theme.of(context).extension<AppColors>()!;

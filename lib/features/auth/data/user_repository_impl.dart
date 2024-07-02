@@ -13,7 +13,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   ThemeMode getCurrentThemeMode() {
-    switch (_storage.get(HiveKeys.themeMode) ?? ThemeMode.light.name) {
+    switch (_storage.get(HiveKeys.themeMode) ?? ThemeMode.system.name) {
       case "dark":
         return ThemeMode.dark;
       case "light":

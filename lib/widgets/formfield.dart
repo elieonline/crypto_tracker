@@ -161,7 +161,9 @@ class _AppFormFieldState extends State<AppFormField> {
                   constraints: widget.constraints,
                   contentPadding: widget.contentPadding,
                   prefixIconConstraints: const BoxConstraints(),
-                  fillColor: widget.outlined ? Colors.transparent : widget.backgroundColor ?? appColors(context).grey,
+                  fillColor: widget.outlined
+                      ? Colors.transparent
+                      : widget.backgroundColor ?? appColors(context).formBackground,
                   hintText: widget.hintText,
                   hintStyle: widget.hintStyle ??
                       textTheme(context).text1Regular.copyWith(

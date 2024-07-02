@@ -7,29 +7,22 @@ import 'formfield.dart';
 class SearchField extends StatelessWidget {
   const SearchField({
     super.key,
-    required this.searchController,
+    this.searchController,
     this.hintText,
   });
-  final TextEditingController searchController;
+  final TextEditingController? searchController;
   final String? hintText;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), boxShadow: [
-        BoxShadow(
-          offset: const Offset(0, 12.25),
-          blurRadius: 39.2,
-          color: const Color(0xFFBFBFBF).withOpacity(0.2),
-        ),
-      ]),
-      child: AppFormField(
-        controller: searchController,
-        hintText: hintText ?? 'Search',
-        borderRadius: 5,
-        marginBottom: 0,
-        suffixIcon: const Icon(BIcons.search_normal),
-      ),
+    return AppFormField(
+      controller: searchController,
+      hintText: hintText ?? 'Search for coins',
+      borderRadius: 5,
+      marginBottom: 0,
+      constraints: const BoxConstraints(minHeight: 50, maxHeight: 50),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10),
+      prefixIcon: const Icon(BIcons.search_normal, size: 18),
     );
   }
 }

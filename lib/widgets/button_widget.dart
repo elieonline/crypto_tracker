@@ -53,7 +53,7 @@ class _AppButton extends State<AppButton> {
         width: widget.width,
         decoration: BoxDecoration(
           border: Border.all(
-            width: 1.0,
+            width: 0.4,
             color: buttonStyle.borderColor,
           ),
           borderRadius: BorderRadius.circular(widget.cornerRadius),

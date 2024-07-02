@@ -1,0 +1,18 @@
+import 'package:flutter/material.dart';
+import 'package:crypto_tracker/core/utils/utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+@RoutePage()
+class {{PLACEHOLDER}}Page extends ConsumerStatefulWidget {
+  const {{PLACEHOLDER}}Page({super.key});
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _{{PLACEHOLDER}}PageState();
+}
+
+class _{{PLACEHOLDER}}PageState extends ConsumerState<{{PLACEHOLDER}}Page> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}

@@ -1,3 +1,4 @@
+import 'package:crypto_tracker/core/extensions/texttheme_extension.dart';
 import 'package:crypto_tracker/core/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +25,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         SystemUiMode.manual,
         overlays: [SystemUiOverlay.top],
       );
+      context.router.replace(const DashboardRoute());
     });
   }
 
@@ -33,7 +35,10 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
     return Scaffold(
       body: Center(
-        child: Image.asset(AppImages.logo, width: 180),
+        child: Text(
+          "Crypto Tracker",
+          style: textTheme(context).text2Bold,
+        ),
       ),
     );
   }

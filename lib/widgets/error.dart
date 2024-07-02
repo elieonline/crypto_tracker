@@ -30,13 +30,13 @@ class EmptyErrorWidget extends StatelessWidget {
           const Spacing.largeHeight(),
           Text(
             title ?? "No records available yet",
-            style: titleStyle ?? textTheme(context).text2SemiBold,
+            style: titleStyle ?? textTheme(context).text2SemiBold.copyWith(fontSize: 18),
             textAlign: TextAlign.center,
           ),
           const Spacing.smallHeight(),
           Text(
-            message ?? "Transactions made will be catalogued here,\nready to revisit whenever you please.",
-            style: messageStyle ?? textTheme(context).textRegular,
+            message ?? "Assets added will be catalogued here,\nready to revisit whenever you please.",
+            style: messageStyle ?? textTheme(context).textRegular.copyWith(fontSize: 13),
             textAlign: TextAlign.center,
           ),
           const Spacing.largeHeight(),
