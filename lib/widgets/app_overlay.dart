@@ -245,7 +245,7 @@ class OverLayLoaderController {
         messageType: messageType,
       )
     ));
-    Future.delayed(const Duration(seconds: 30), () {
+    Future.delayed(const Duration(seconds: 5), () {
       removeOverLay();
     });
   }

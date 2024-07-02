@@ -125,9 +125,7 @@ class _AppFormFieldState extends State<AppFormField> {
             validator: widget.validator,
             onSaved: widget.onSaved,
             onChanged: widget.onChange,
-            style: textTheme(context).text1Regular.copyWith(
-                  color: widget.outlined ? appColors(context).onSurface : Colors.black,
-                ),
+            style: textTheme(context).text1Regular.copyWith(color: appColors(context).onSurface),
             cursorColor: appColors(context).primary,
             key: widget.key,
             maxLines: widget.maxLines,

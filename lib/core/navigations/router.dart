@@ -8,5 +8,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(path: '/', page: SplashRoute.page),
         AutoRoute(path: '/dashboard', page: DashboardRoute.page),
         AutoRoute(path: '/add_assets', page: AddAssetRoute.page),
+        AutoRoute(path: '/compare_assets', page: CompareAssetRoute.page),
       ];
 }

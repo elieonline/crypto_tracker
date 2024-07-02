@@ -11,4 +11,5 @@ export 'validators.dart';
 export 'routes.dart';
 export 'theme.dart';
 export 'button_style.dart';
+export 'num_format.dart';
 export 'package:flutter_svg/svg.dart';

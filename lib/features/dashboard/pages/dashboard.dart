@@ -1,10 +1,11 @@
 import 'package:crypto_tracker/core/extensions/texttheme_extension.dart';
-import 'package:crypto_tracker/core/utils/theme.dart';
 import 'package:crypto_tracker/core/utils/utils.dart';
+import 'package:crypto_tracker/features/dashboard/data/crypto_repository_impl.dart';
 import 'package:crypto_tracker/widgets/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../notifiers/crypto_notifier.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/filter_menu.dart';
 
@@ -25,7 +26,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       child: Scaffold(
         appBar: dashAppBar(),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () => appRouter.push(const CompareAssetRoute()),
           backgroundColor: appColors(context).primary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           label: Text(
@@ -127,5 +128,14 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(cryptoNotifier.notifier).fetchCryptoList();
+      debugLog(ref.read(assetProvider).length);
+    });
   }
 }

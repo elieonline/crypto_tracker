@@ -1,5 +1,5 @@
 name: crypto_tracker
-description: "A new Flutter project."
+description: "This Flutter application allows users to track their cryptocurrency portfolio, compare cryptocurrencies side-by-side, and view key metrics and trends. The app integrates with a public cryptocurrency API to fetch live data"
 publish_to: "none"
 version: 1.0.0+1
 

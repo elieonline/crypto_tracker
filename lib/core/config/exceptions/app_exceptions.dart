@@ -1,36 +1,22 @@
 import 'package:crypto_tracker/core/utils/utils.dart';
 import 'package:dio/dio.dart';
 
-import '../response/base_response.dart';
-
 class AppException {
   //HANDLE ERROR
-  static BaseResponse<T> handleError<T>(
+  static String handleError<T>(
     DioException e, {
     T? data,
   }) {
     if (e.response != null && DioExceptionType.badResponse == e.type) {
       if (e.response?.data is Map<String, dynamic>) {
-        debugLog(BaseResponse.fromMap(e.response?.data).status.errorMessage);
-        return BaseResponse.fromMap(e.response?.data);
+        debugLog(e.response?.data["error"]);
+        return "${e.response?.data['error']}";
       } else if (e.response?.data is String) {
         debugLog(e.response?.data);
-        return BaseResponse(
-          status: Status(
-            errorCode: e.response?.statusCode,
-            errorMessage: e.response?.data,
-          ),
-          data: data,
-        );
+        return "${e.response?.data}";
       }
     }
-    return BaseResponse(
-      status: Status(
-        errorCode: e.response?.statusCode,
-        errorMessage: _mapException(e.type),
-      ),
-      data: data,
-    );
+    return _mapException(e.type);
   }
 
   static _mapException(DioExceptionType? error) {

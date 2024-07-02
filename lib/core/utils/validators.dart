@@ -151,7 +151,7 @@ class Validators {
   static bool isValid(String pin, String pin2) => (pin.isNotEmpty && pin2.isNotEmpty && pin == pin2);
   static Validator matchPattern(Pattern pattern, [String? patternName, String? text]) {
     return (String? value) {
-      if (value == null || (pattern.allMatches(value).isEmpty)) {
+      if (value == null || (pattern.allMatches(value.replaceAll(',', '')).isEmpty)) {
         return (text ?? "Please enter a valid ${patternName ?? "value"}.");
       }
       return null;
