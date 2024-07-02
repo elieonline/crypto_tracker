@@ -63,7 +63,7 @@ class CryptoNotifier extends StateNotifier<CryptoState> {
       await fetchCryptoDetails(crypto.id ?? "");
       if (state.detailsLoadState != LoadState.success) return;
       final asset = Asset()
-        ..id = ""
+        ..id = "${DateTime.now().millisecondsSinceEpoch}"
         ..assetId = crypto.id
         ..assetName = crypto.name
         ..assetLogo = state.details[0].image
