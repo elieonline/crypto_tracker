@@ -60,8 +60,9 @@ class CryptoRepositoryImpl implements CryptoRepository {
   }
 
   @override
-  List<Asset> getAssets() {
-    return _ref.read(assetStore).getAll();
+  void getAssets() {
+    final temp = _ref.read(assetStore).getAll();
+    _ref.read(assetProvider.notifier).state = temp.toList();
   }
 }
 

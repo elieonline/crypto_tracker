@@ -110,15 +110,33 @@ class _AddAssetPageState extends ConsumerState<AddAssetPage> {
         resetForm();
         AppBottom.sheet(
           context: context,
+          showClose: true,
           child: SuccessBottomSheet(
             title: "Successful",
             message: "Asset added to portfolio successfully",
-            button: AppButton(
-              text: 'Done',
-              onPressed: () {
-                Navigator.pop(context);
-                appRouter.replace(const DashboardRoute());
-              },
+            button: Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    buttonStyle: AppButtonStyle.secondary(context),
+                    text: 'Go home',
+                    onPressed: () {
+                      Navigator.pop(context);
+                      appRouter.replace(const DashboardRoute());
+                    },
+                  ),
+                ),
+                const Spacing.mediumWidth(),
+                Expanded(
+                  child: AppButton(
+                    text: 'Done',
+                    onPressed: () {
+                      ref.read(cryptoNotifier.notifier).fetchAssets();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         );
