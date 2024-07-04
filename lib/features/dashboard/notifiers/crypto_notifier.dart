@@ -37,6 +37,17 @@ class CryptoNotifier extends StateNotifier<CryptoState> {
     }
   }
 
+  Future fetchAssetDetails(String ids) async {
+    try {
+      final response = await _cryptoRepository.cryptoMarket(ids);
+      if (response.runtimeType is String) throw response;
+      final model = response is List<dynamic>
+          ? response.map<CryptoDetails>((i) => CryptoDetails.fromJson(i as Map<String, dynamic>)).toList()
+          : List.empty();
+      state = state.copyWith(assetDetails: model as List<CryptoDetails>);
+    } catch (_) {}
+  }
+
   Future fetchCryptoDetails(String ids) async {
     state = state.copyWith(detailsLoadState: LoadState.loading, details: []);
     try {
@@ -48,7 +59,6 @@ class CryptoNotifier extends StateNotifier<CryptoState> {
       state = state.copyWith(
         detailsLoadState: LoadState.success,
         details: model as List<CryptoDetails>,
-        assetDetails: model,
       );
     } catch (e) {
       state = state.copyWith(
@@ -91,6 +101,10 @@ class CryptoNotifier extends StateNotifier<CryptoState> {
       detailsLoadState: LoadState.idle,
       assetLoadState: LoadState.idle,
     );
+  }
+
+  void resetCompare() {
+    state = state.copyWith(details: []);
   }
 }
 

@@ -39,7 +39,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       child: Scaffold(
         appBar: dashAppBar(),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => appRouter.push(const CompareAssetRoute()),
+          onPressed: () {
+            ref.read(cryptoNotifier.notifier).resetCompare();
+            appRouter.push(const CompareAssetRoute());
+          },
           backgroundColor: appColors(context).primary,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           label: Text(
@@ -213,9 +216,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   void assetValue(List<Asset> assets) {
     final ids = assets.map((e) => e.assetId).toSet();
     if (ids.isEmpty) return;
-    ref.read(cryptoNotifier.notifier).fetchCryptoDetails(ids.join(","));
+    ref.read(cryptoNotifier.notifier).fetchAssetDetails(ids.join(","));
     timer = Timer.periodic(const Duration(seconds: 45), (timer) {
-      ref.read(cryptoNotifier.notifier).fetchCryptoDetails(ids.join(","));
+      ref.read(cryptoNotifier.notifier).fetchAssetDetails(ids.join(","));
     });
   }
 
