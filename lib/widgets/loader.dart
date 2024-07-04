@@ -145,7 +145,7 @@ class CustomLoader extends StatelessWidget {
     return Container(
       height: 8,
       width: 50,
-      margin: EdgeInsets.fromLTRB(left, 0, right, 0),
+      margin: EdgeInsets.fromLTRB(left, left, right, right),
       decoration: BoxDecoration(
         color: Colors.grey,
         borderRadius: BorderRadius.circular(12),
@@ -154,21 +154,31 @@ class CustomLoader extends StatelessWidget {
   }
 }
 
-Widget box({
-  double height = double.infinity,
-  double width = double.infinity,
-  double borderRadius = 8,
-  bool rounded = false,
-  Widget? child,
-}) {
-  return Container(
-    height: height,
-    width: width,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      shape: rounded ? BoxShape.circle : BoxShape.rectangle,
-      borderRadius: !rounded ? BorderRadius.circular(borderRadius) : null,
+Widget assetPriceLoader() {
+  return Shimmer.fromColors(
+    baseColor: Colors.white,
+    highlightColor: Colors.grey[300]!,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          height: 12,
+          width: 120,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(3),
+          ),
+        ),
+        const Spacing.tinyHeight(),
+        Container(
+          height: 10,
+          width: 100,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+      ],
     ),
-    child: child,
   );
 }

@@ -5,6 +5,7 @@ import '../data/crypto_details_model.dart';
 
 class CryptoState {
   final List<CryptoDetails> details;
+  final List<CryptoDetails> assetDetails;
   final LoadState loadState;
   final LoadState assetLoadState;
   final LoadState detailsLoadState;
@@ -12,6 +13,7 @@ class CryptoState {
 
   CryptoState({
     required this.details,
+    required this.assetDetails,
     required this.loadState,
     required this.assetLoadState,
     required this.detailsLoadState,
@@ -21,6 +23,7 @@ class CryptoState {
   factory CryptoState.initial() {
     return CryptoState(
       details: [],
+      assetDetails: [],
       loadState: LoadState.idle,
       assetLoadState: LoadState.idle,
       detailsLoadState: LoadState.idle,
@@ -29,6 +32,7 @@ class CryptoState {
 
   CryptoState copyWith({
     List<CryptoDetails>? details,
+    List<CryptoDetails>? assetDetails,
     LoadState? loadState,
     LoadState? assetLoadState,
     LoadState? detailsLoadState,
@@ -36,6 +40,7 @@ class CryptoState {
   }) {
     return CryptoState(
       details: details ?? this.details,
+      assetDetails: assetDetails ?? this.assetDetails,
       loadState: loadState ?? this.loadState,
       assetLoadState: assetLoadState ?? this.assetLoadState,
       detailsLoadState: detailsLoadState ?? this.detailsLoadState,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:crypto_tracker/core/extensions/data_types_extensions.dart';
 import 'package:crypto_tracker/core/extensions/texttheme_extension.dart';
 import 'package:crypto_tracker/core/utils/utils.dart';
@@ -7,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../data/asset_model.dart';
+import '../data/crypto_details_model.dart';
 import '../notifiers/crypto_notifier.dart';
 import '../widgets/app_bar.dart';
 import '../widgets/filter_menu.dart';
@@ -22,9 +26,14 @@ class DashboardPage extends ConsumerStatefulWidget {
 class _DashboardPageState extends ConsumerState<DashboardPage> {
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
   String? filterValue = "Name";
+  Timer? timer;
+
   @override
   Widget build(BuildContext context) {
     final assets = ref.watch(assetProvider);
+    final assetsDetails = ref.watch(cryptoNotifier.select((value) => value.assetDetails));
+    _listener();
+
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -54,15 +63,18 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
               //balance
               Text("Total Balance", style: textTheme(context).textMedium),
               Text(
-                "\$16,534.08",
+                "\$${_calculateTotal().$1.formatAmount}",
                 style: textTheme(context).header1Bold.copyWith(fontSize: 26),
               ),
-              Text(
-                "+\$6,534.08",
-                style: textTheme(context).textSemiBold.copyWith(
-                      color: appColors(context).success,
-                    ),
-              ),
+              Builder(builder: (context) {
+                final isNegative = _calculateTotal().$2.isNegative;
+                return Text(
+                  "${isNegative ? '-' : '+'}\$${_calculateTotal().$2.abs().formatAmount}",
+                  style: textTheme(context).textSemiBold.copyWith(
+                        color: isNegative ? appColors(context).error : appColors(context).success,
+                      ),
+                );
+              }),
               const Spacing.bigHeight(),
 
               //portfolio
@@ -100,6 +112,12 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     separatorBuilder: (ctx, _) => const Spacing.tinyHeight(),
                     itemBuilder: (_, index) {
                       final asset = assets[index];
+                      final details = assetsDetails.firstWhere(
+                        (element) => element.id == asset.assetId,
+                        orElse: () => CryptoDetails(),
+                      );
+                      final totalAmount = (asset.unit ?? 0) * (details.currentPrice ?? 0);
+
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
                         dense: true,
@@ -119,21 +137,29 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                                 color: appColors(context).onSurface.withOpacity(0.7),
                               ),
                         ),
-                        trailing: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              "\$6,456.88",
-                              style: textTheme(context).text2Bold.copyWith(fontSize: 18),
-                            ),
-                            Text(
-                              "+\$74.55(1.56%)",
-                              style: textTheme(context).textRegular.copyWith(
-                                    color: (index % 2) == 0 ? appColors(context).success : appColors(context).error,
+                        trailing: assetsDetails.isEmpty
+                            ? assetPriceLoader()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "\$${totalAmount.formatAmount}",
+                                    style: textTheme(context).text2Bold.copyWith(fontSize: 18),
                                   ),
-                            ),
-                          ],
-                        ),
+                                  Builder(builder: (context) {
+                                    final priceChange = details.priceChange24H?.abs().formatAmount;
+                                    final priceChangePercent =
+                                        details.priceChangePercentage24H?.abs().toStringAsFixed(2);
+                                    final isNegative = (details.priceChange24H ?? 0).isNegative;
+                                    return Text(
+                                      "${isNegative ? '-' : '+'}\$$priceChange($priceChangePercent%)",
+                                      style: textTheme(context).textRegular.copyWith(
+                                            color: isNegative ? appColors(context).error : appColors(context).success,
+                                          ),
+                                    );
+                                  }),
+                                ],
+                              ),
                       );
                     }),
                 const Spacing.smallHeight(),
@@ -158,11 +184,53 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     );
   }
 
+  void _listener() {
+    ref.listen(assetProvider, (previous, next) {
+      if ((previous?.length ?? 0) != next.length) {
+        timer?.cancel();
+        assetValue(next);
+      }
+    });
+  }
+
+  (double, double) _calculateTotal() {
+    final assets = ref.watch(assetProvider);
+    final assetsDetails = ref.watch(cryptoNotifier.select((value) => value.assetDetails));
+    double buyValue = 0;
+    double currentValue = 0;
+
+    for (var asset in assets) {
+      final details = assetsDetails.firstWhere(
+        (element) => element.id == asset.assetId,
+        orElse: () => CryptoDetails(),
+      );
+      buyValue += asset.buyValue ?? 0;
+      currentValue += (asset.unit ?? 0) * (details.currentPrice ?? 0);
+    }
+    return (currentValue, currentValue - buyValue);
+  }
+
+  void assetValue(List<Asset> assets) {
+    final ids = assets.map((e) => e.assetId).toSet();
+    if (ids.isEmpty) return;
+    ref.read(cryptoNotifier.notifier).fetchCryptoDetails(ids.join(","));
+    timer = Timer.periodic(const Duration(seconds: 45), (timer) {
+      ref.read(cryptoNotifier.notifier).fetchCryptoDetails(ids.join(","));
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(cryptoNotifier.notifier).fetchCryptoList();
+      assetValue(ref.read(assetProvider));
     });
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 }

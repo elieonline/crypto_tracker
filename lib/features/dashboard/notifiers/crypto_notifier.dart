@@ -48,6 +48,7 @@ class CryptoNotifier extends StateNotifier<CryptoState> {
       state = state.copyWith(
         detailsLoadState: LoadState.success,
         details: model as List<CryptoDetails>,
+        assetDetails: model,
       );
     } catch (e) {
       state = state.copyWith(
@@ -71,7 +72,7 @@ class CryptoNotifier extends StateNotifier<CryptoState> {
         ..buyPrice = buyPrice
         ..buyValue = unit * buyPrice;
       final response = await _assetStorage.add(asset);
-      if (response < 1) throw response;
+      if (response < 0) throw response;
       state = state.copyWith(assetLoadState: LoadState.success);
     } catch (e) {
       state = state.copyWith(assetLoadState: LoadState.error);

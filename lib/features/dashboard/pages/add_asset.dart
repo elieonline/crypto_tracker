@@ -66,12 +66,12 @@ class _AddAssetPageState extends ConsumerState<AddAssetPage> {
               controller: _buyPrice,
               label: "Buy Price",
               hintText: "Coin price when bought",
-              validator: Validators.amount(),
+              validator: Validators.notEmpty(),
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.done,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                NumFormatter(),
+                NumFormatter(numDigits: 8),
               ],
             ),
             const Spacing.height(150),
@@ -122,6 +122,7 @@ class _AddAssetPageState extends ConsumerState<AddAssetPage> {
                     text: 'Go home',
                     onPressed: () {
                       Navigator.pop(context);
+                      ref.read(cryptoNotifier.notifier).fetchAssets();
                       appRouter.replace(const DashboardRoute());
                     },
                   ),

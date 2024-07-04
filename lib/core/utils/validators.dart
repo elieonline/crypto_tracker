@@ -11,7 +11,7 @@ class Validators {
   );
 
   static final phonePattern = RegExp("^(\\+234[7-9]|234[7-9]|08|09|07|[7-9])\\d{9}\$");
-  static final amountPattern = RegExp(r'^\d+(?:\.\d{1,2})?$');
+  static final amountPattern = RegExp(r'^\d+(?:\.\d{1,8})?$');
   static final emailPhonePattern = RegExp(
       r"^(?:[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)+|(?:\+234[7-9]|234[7-9]|08|09|07|[7-9])\d{9})$");
 

@@ -1,4 +1,5 @@
 import 'package:crypto_tracker/core/extensions/texttheme_extension.dart';
+import 'package:crypto_tracker/core/services/local_database/asset_storage_impl.dart';
 import 'package:crypto_tracker/core/utils/utils.dart';
 import 'package:crypto_tracker/widgets/widget.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,9 @@ class _CompareAssetPageState extends ConsumerState<CompareAssetPage> {
               ),
               AppButton(
                 text: 'Compare',
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(assetStore).clear();
+                },
               ),
             ],
           ),
